@@ -24,9 +24,9 @@ jobs:
       - name: Update generated file
         run: |
           mkdir -p bot
-
+      
           printf "Last automatic update: %s\n" \
-            "$(TZ=Asia/Manila date '+%Y-%m-%d %H:%M:%S %Z')" \
+            "$(TZ=Asia/Manila date '+%Y-%m-%d %H:%M:%S %:z (Asia/Manila)')" \
             > bot/last-run.txt
 
       - name: Commit and push changes
