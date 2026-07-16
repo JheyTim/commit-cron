@@ -1,11 +1,11 @@
 # Commit Cron
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A simple GitHub Actions experiment that creates one automated commit every night.
+A simple GitHub Actions experiment that creates one automated commit every day.
 
 ## What it does
 
-Every day at **10:00 PM Asia/Manila time**, the workflow:
+Every day at **10:00 AM Asia/Manila time**, the workflow:
 
 1. Runs automatically through GitHub Actions.
 2. Updates `bot/last-run.txt` with the latest execution time.
@@ -37,11 +37,11 @@ The workflow can also be started manually:
 
 ```yaml
 schedule:
-  - cron: "0 22 * * *"
+  - cron: "0 10 * * *"
     timezone: "Asia/Manila"
 ```
 
-This schedule runs once per day at 10:00 PM Philippine time.
+This schedule runs once per day at 10:00 AM Philippine time.
 
 ## Purpose
 
