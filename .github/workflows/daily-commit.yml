@@ -2,7 +2,7 @@ name: Daily commit bot
 
 on:
   schedule:
-    # Every day at 10:00 PM Philippine time
+    # Every day at 10:00 AM Philippine time
     - cron: "0 10 * * *"
       timezone: "Asia/Manila"
 
