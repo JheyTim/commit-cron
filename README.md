@@ -1,4 +1,4 @@
-# Commit Clock
+# Commit Cron
 
 A simple GitHub Actions experiment that creates one automated commit every night.
 
