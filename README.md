@@ -1,4 +1,5 @@
 # Commit Cron
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A simple GitHub Actions experiment that creates one automated commit every night.
 
@@ -54,3 +55,7 @@ This repository is a small demonstration of:
 ## Important note
 
 The generated commits only confirm that the scheduled automation ran successfully. They do not represent manual development activity or meaningful project contributions.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
