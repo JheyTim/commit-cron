@@ -3,9 +3,6 @@
 
 A simple GitHub Actions experiment that creates one automated commit every day.
 
-> [!WARNING]
-> Scheduled GitHub Actions are not guaranteed to start at exactly 10:00 AM. Runs may be delayed during periods of high demand, so `bot/last-run.txt` records the actual execution time.
-
 ## What it does
 
 Every day at **10:00 AM Asia/Manila time**, the workflow:
@@ -58,6 +55,9 @@ This repository is a small demonstration of:
 ## Important note
 
 The generated commits only confirm that the scheduled automation ran successfully. They do not represent manual development activity or meaningful project contributions.
+
+> [!WARNING]
+> Scheduled GitHub Actions are not guaranteed to start at exactly 10:00 AM. Runs may be delayed during periods of high demand, so `bot/last-run.txt` records the actual execution time.
 
 ## License
 
