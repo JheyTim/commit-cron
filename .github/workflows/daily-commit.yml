@@ -3,7 +3,7 @@ name: Daily Commit Bot
 on:
   schedule:
     # Every day at 10:00 PM Philippine time
-    - cron: "0 22 * * *"
+    - cron: "40 0 * * *"
       timezone: "Asia/Manila"
 
   # Adds a button for manually testing the workflow
