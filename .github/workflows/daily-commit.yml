@@ -3,7 +3,7 @@ name: Daily commit bot
 on:
   schedule:
     # Every day at 10:12 AM Philippine time
-    - cron: "12 10 * * *"
+    - cron: "06 16 * * *"
       timezone: "Asia/Manila"
 
   # Lets you test it manually from the Actions tab
