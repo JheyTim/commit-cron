@@ -5,7 +5,7 @@ A simple GitHub Actions experiment that creates one automated commit every day.
 
 ## What it does
 
-Every day at **10:00 AM Asia/Manila time**, the workflow:
+Every day at **10:12 AM Asia/Manila time**, the workflow:
 
 1. Runs automatically through GitHub Actions.
 2. Updates `bot/last-run.txt` with the latest execution time.
@@ -37,11 +37,11 @@ The workflow can also be started manually:
 
 ```yaml
 schedule:
-  - cron: "0 10 * * *"
+  - cron: "12 10 * * *"
     timezone: "Asia/Manila"
 ```
 
-This schedule runs once per day at 10:00 AM Philippine time.
+This schedule runs once per day at 10:12 AM Philippine time.
 
 ## Purpose
 
