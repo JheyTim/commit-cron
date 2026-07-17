@@ -57,7 +57,7 @@ This repository is a small demonstration of:
 The generated commits only confirm that the scheduled automation ran successfully. They do not represent manual development activity or meaningful project contributions.
 
 > [!WARNING]
-> Scheduled GitHub Actions are not guaranteed to start at exactly 10:00 AM. Runs may be delayed during periods of high demand, so `bot/last-run.txt` records the actual execution time.
+> Scheduled GitHub Actions are not guaranteed to start at exactly 10:12 AM. Runs may be delayed during periods of high demand, so `bot/last-run.txt` records the actual execution time.
 
 ## License
 
