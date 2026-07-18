@@ -12,6 +12,18 @@ Every day at **10:12 AM Asia/Manila time**, the workflow:
 3. Creates a commit using the `github-actions[bot]` account.
 4. Pushes the commit to the repository.
 
+## Try it yourself
+
+You are welcome to fork this project and run the automation in your own GitHub repository.
+
+1. Click **Fork** at the top of this repository.
+2. Open the **Actions** tab in your fork.
+3. Enable GitHub Actions when GitHub asks for confirmation.
+4. Select **Daily Commit Bot**.
+5. Click **Run workflow** to test it manually.
+
+After GitHub Actions is enabled, the workflow will also run automatically according to its schedule.
+
 ## Repository structure
 
 ```text
@@ -23,15 +35,6 @@ Every day at **10:12 AM Asia/Manila time**, the workflow:
 │   └── last-run.txt
 └── README.md
 ```
-
-## Run it manually
-
-The workflow can also be started manually:
-
-1. Open the **Actions** tab.
-2. Select **Daily Commit Bot**.
-3. Click **Run workflow**.
-4. Select the branch and confirm.
 
 ## Schedule
 
