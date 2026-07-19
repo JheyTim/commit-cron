@@ -23,8 +23,6 @@ schedule:
     timezone: "Asia/Manila"
 ```
 
-Scheduled GitHub Actions runs may be delayed during periods of high demand. For this reason, `bot/last-run.txt` records the actual execution time rather than the scheduled time.
-
 Manual runs are enabled through:
 
 ```yaml
@@ -92,6 +90,8 @@ This repository demonstrates:
 ## Important note
 
 The generated commits only confirm that the automation ran successfully. They do not represent manual development activity or meaningful project contributions.
+
+Scheduled GitHub Actions runs may be delayed during periods of high demand. For this reason, `bot/last-run.txt` records the actual execution time rather than the scheduled time.
 
 ## License
 
