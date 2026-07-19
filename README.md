@@ -6,42 +6,65 @@ A simple GitHub Actions experiment that creates one automated commit every day.
 
 ## What it does
 
-Every day at **10:12 AM Asia/Manila time**, the workflow:
+Every day at approximately **10:12 AM Asia/Manila time**, the workflow:
 
-1. Runs automatically through GitHub Actions.
-2. Updates `bot/last-run.txt` with the actual execution time.
-3. Configures the commit author using the repository owner’s GitHub username and GitHub-provided `noreply` email address.
-4. Creates a commit containing the updated file.
-5. Pushes the commit to the repository’s current branch.
+1. Updates `bot/last-run.txt` with the actual execution time.
+2. Configures the commit author using the repository owner’s GitHub identity.
+3. Creates a commit containing the updated file.
+4. Pushes the commit to the current branch.
 
-For repositories owned by personal accounts, the commit identity is generated from these GitHub Actions context values:
+The workflow can also be started manually from the Actions tab.
+
+## Schedule
 
 ```yaml
-github.repository_owner
-github.repository_owner_id
+schedule:
+  - cron: "12 10 * * *"
+    timezone: "Asia/Manila"
 ```
 
-The resulting email follows GitHub’s private email format:
+Scheduled GitHub Actions runs may be delayed during periods of high demand. For this reason, `bot/last-run.txt` records the actual execution time rather than the scheduled time.
+
+Manual runs are enabled through:
+
+```yaml
+workflow_dispatch:
+```
+
+## Commit identity
+
+For repositories owned by personal accounts, the workflow builds the commit identity from these GitHub Actions context values:
+
+```yaml
+env:
+  COMMIT_NAME: ${{ github.repository_owner }}
+  COMMIT_EMAIL: "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
+```
+
+It then configures Git before creating the commit:
+
+```bash
+git config user.name "$COMMIT_NAME"
+git config user.email "$COMMIT_EMAIL"
+```
+
+The generated email follows GitHub’s private email format:
 
 ```text
 ACCOUNT_ID+USERNAME@users.noreply.github.com
 ```
 
-No personal email address is exposed.
+This avoids exposing a personal email address and allows the workflow to adapt automatically when the repository is forked.
 
 ## Try it yourself
 
-You are welcome to fork this project and run the automation in your own GitHub repository.
-
-1. Click **Fork** at the top of this repository.
+1. Fork this repository.
 2. Open the **Actions** tab in your fork.
-3. Enable GitHub Actions when GitHub asks for confirmation.
+3. Enable GitHub Actions when prompted.
 4. Select **Daily Commit Bot**.
-5. Click **Run workflow** to test it manually.
+5. Click **Run workflow** to test it.
 
-After GitHub Actions is enabled, the workflow will also run automatically according to its schedule.
-
-In a personal fork, future automated commits will use the fork owner’s GitHub username and GitHub-provided `noreply` email address.
+After Actions is enabled, the workflow will also run according to its daily schedule.
 
 ## Repository structure
 
@@ -55,55 +78,20 @@ In a personal fork, future automated commits will use the fork owner’s GitHub 
 └── README.md
 ```
 
-## Schedule
-
-```yaml
-schedule:
-  - cron: "12 10 * * *"
-    timezone: "Asia/Manila"
-```
-
-This schedule runs once per day at approximately **10:12 AM Philippine time**.
-
-The workflow can also be started manually through the Actions tab using `workflow_dispatch`.
-
-## Commit identity
-
-The workflow dynamically configures the commit author:
-
-```yaml
-env:
-  COMMIT_NAME: ${{ github.repository_owner }}
-  COMMIT_EMAIL: "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
-```
-
-It then applies those values before creating the commit:
-
-```bash
-git config user.name "$COMMIT_NAME"
-git config user.email "$COMMIT_EMAIL"
-```
-
-This makes the workflow reusable across personal forks without hard-coding the original repository owner’s username or email address.
-
 ## Purpose
 
-This repository is a small demonstration of:
+This repository demonstrates:
 
-- Scheduled GitHub Actions workflows
-- GitHub Actions context variables
-- Dynamic commit author configuration
-- Automated file updates
-- Automated Git commits
-- Repository write permissions using `GITHUB_TOKEN`
-- Fork-friendly workflow configuration
+* Scheduled and manually triggered GitHub Actions workflows
+* GitHub Actions context variables
+* Dynamic commit author configuration
+* Automated file updates, commits, and pushes
+* Repository write permissions through `GITHUB_TOKEN`
+* Fork-friendly workflow configuration
 
-## Important notes
+## Important note
 
-The generated commits confirm that the scheduled automation ran successfully. They do not represent manual development activity or meaningful project contributions.
-
-> [!WARNING]
-> Scheduled GitHub Actions are not guaranteed to start at exactly 10:12 AM. Runs may be delayed during periods of high demand, so `bot/last-run.txt` records the actual execution time.
+The generated commits only confirm that the automation ran successfully. They do not represent manual development activity or meaningful project contributions.
 
 ## License
 
