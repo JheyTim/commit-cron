@@ -30,14 +30,16 @@ jobs:
             > bot/last-run.txt
 
       - name: Commit and push changes
+        env:
+          COMMIT_NAME: ${{ github.repository_owner }}
+          COMMIT_EMAIL: "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
+
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "$COMMIT_NAME"
+          git config user.email "$COMMIT_EMAIL"
 
           git add bot/last-run.txt
 
-          # Do not fail when there is nothing new to commit
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
@@ -45,6 +47,5 @@ jobs:
 
           git commit -m "chore: daily automated update"
 
-          # Incorporate any commits pushed while this job was running
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
