@@ -1,4 +1,4 @@
-name: Daily commit bot
+name: Daily random commit bot
 
 on:
   schedule:
@@ -9,9 +9,13 @@ on:
   # Lets you test it manually from the Actions tab
   workflow_dispatch:
 
-# Allows the built-in GitHub token to push changes
 permissions:
   contents: write
+
+# Prevents two copies of this workflow from running simultaneously
+concurrency:
+  group: daily-random-commit-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   daily-commit:
@@ -20,32 +24,53 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
 
-      - name: Update generated file
-        run: |
-          mkdir -p bot
-      
-          printf "Last automatic update: %s\n" \
-            "$(TZ=Asia/Manila date '+%Y-%m-%d %H:%M:%S %:z (Asia/Manila)')" \
-            > bot/last-run.txt
-
-      - name: Commit and push changes
+      - name: Create random commits
+        shell: bash
         env:
           COMMIT_NAME: ${{ github.repository_owner }}
           COMMIT_EMAIL: "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
 
         run: |
+          set -euo pipefail
+
           git config user.name "$COMMIT_NAME"
           git config user.email "$COMMIT_EMAIL"
 
-          git add bot/last-run.txt
+          mkdir -p bot
 
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
+          # Update the branch before creating commits
+          git pull --rebase origin "$GITHUB_REF_NAME"
 
-          git commit -m "chore: daily automated update"
+          # Random number from 1 to 30
+          COMMIT_COUNT="$(shuf -i 1-30 -n 1)"
 
-          git pull --rebase origin "${GITHUB_REF_NAME}"
+          echo "Creating $COMMIT_COUNT commits."
+
+          for i in $(seq 1 "$COMMIT_COUNT"); do
+            TIMESTAMP="$(TZ=Asia/Manila date '+%Y-%m-%d %H:%M:%S %:z (Asia/Manila)')"
+
+            printf \
+              "Last automatic update: %s\nWorkflow run: %s\nCommit: %s of %s\n" \
+              "$TIMESTAMP" \
+              "$GITHUB_RUN_ID" \
+              "$i" \
+              "$COMMIT_COUNT" \
+              > bot/last-run.txt
+
+            git add bot/last-run.txt
+            git commit -m "chore: daily automated update ($i/$COMMIT_COUNT)"
+          done
+
+          # One push sends all generated commits
           git push origin "HEAD:${GITHUB_REF_NAME}"
+
+          {
+            echo "### Daily random commit bot"
+            echo "- Commits created: $COMMIT_COUNT"
+            echo "- Branch: $GITHUB_REF_NAME"
+            echo "- Time: $(TZ=Asia/Manila date '+%Y-%m-%d %H:%M:%S')"
+          } >> "$GITHUB_STEP_SUMMARY"
